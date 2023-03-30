@@ -39,10 +39,56 @@ mysql> select * from employee_payroll;
 +-------------+---------+----------+------------+
 | employee_id | name    | salary   | start_date |
 +-------------+---------+----------+------------+
-|           1 | Rohith  | 35000.00 | 2019-04-15 |
-|           2 | Shoban  | 48000.00 | 2020-12-09 |
-|           3 | Rahul   |  5600.00 | 2022-04-25 |
+|           1 | rohith  | 35000.00 | 2019-04-15 |
+|           2 | shoban  | 48000.00 | 2020-12-09 |
+|           3 | rahul   |  5600.00 | 2022-04-25 |
 +-------------+---------+----------+------------+
+3 rows in set (0.00 sec)
+
+mysql> select salary from employee_payroll where name='Shoban';
++----------+
+| salary   |
++----------+
+| 48000.00 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select * from employee_payroll WHERE start_date BETWEEN CAST('2019-04-15' AS DATE) AND DATE (NOW());
++-------------+---------+----------+------------+
+| employee_id | name    | salary   | start_date |
++-------------+---------+----------+------------+
+|           1 | rohith  | 35000.00 | 2019-04-15 |
+|           2 | shoban  | 48000.00 | 2020-12-09 |
+|           3 | rahul   |  5600.00 | 2022-04-25 |
++-------------+---------+----------+------------+
+3 rows in set (0.01 sec)
+
+mysql> alter table employee_payroll add gender varchar(5);
+Query OK, 0 rows affected (0.11 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee_payroll;
++-------------+---------+----------+------------+--------+
+| employee_id | name    | salary   | start_date | gender |
++-------------+---------+----------+------------+--------+
+|           1 | rohith  | 35000.00 | 2019-04-15 | NULL   |
+|           2 | shoban  | 48000.00 | 2020-12-09 | NULL   |
+|           3 | rahul   |  5600.00 | 2022-04-25 | NULL   |
++-------------+---------+----------+------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> update employee_payroll set gender = 'M' WHERE name = 'rohith' or name = 'shoban' or name = 'rahul';
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3 Changed: 3  Warnings: 0
+
+mysql> select * from employee_payroll;
++-------------+---------+----------+------------+--------+
+| employee_id | name    | salary   | start_date | gender |
++-------------+---------+----------+------------+--------+
+|           1 | rohith  | 35000.00 | 2019-04-15 | M      |
+|           2 | shoban  | 48000.00 | 2020-12-09 | M      |
+|           3 | rahul   |  5600.00 | 2022-04-25 | M      |
++-------------+---------+----------+------------+--------+
 3 rows in set (0.00 sec)
 
 mysql>
