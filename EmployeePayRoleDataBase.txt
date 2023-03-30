@@ -31,7 +31,7 @@ mysql> show databases;
 
 mysql> use payrollservice
 Database changed
-mysql> insert into employee_payroll( employee_id,name,salary,start_date) VALUES (1,'Rohith',35000,'2019-04-15'),(2,'Shoban',48000,'2020-12-09'),(3,'Rahul',5600,'2022-04-25');
+mysql> insert into employee_payroll( employee_id,name,salary,start_date) VALUES (1,'rohith',35000,'2019-04-15'),(2,'shoban',48000,'2020-12-09'),(3,'vishnu',5600,'2022-04-25');
 Query OK, 3 rows affected (0.01 sec)
 Records: 3  Duplicates: 0  Warnings: 0
 
@@ -41,7 +41,7 @@ mysql> select * from employee_payroll;
 +-------------+---------+----------+------------+
 |           1 | rohith  | 35000.00 | 2019-04-15 |
 |           2 | shoban  | 48000.00 | 2020-12-09 |
-|           3 | rahul   |  5600.00 | 2022-04-25 |
+|           3 | vishnu  |  5600.00 | 2022-04-25 |
 +-------------+---------+----------+------------+
 3 rows in set (0.00 sec)
 
@@ -59,7 +59,7 @@ mysql> select * from employee_payroll WHERE start_date BETWEEN CAST('2019-04-15'
 +-------------+---------+----------+------------+
 |           1 | rohith  | 35000.00 | 2019-04-15 |
 |           2 | shoban  | 48000.00 | 2020-12-09 |
-|           3 | rahul   |  5600.00 | 2022-04-25 |
+|           3 | vishnu  |  5600.00 | 2022-04-25 |
 +-------------+---------+----------+------------+
 3 rows in set (0.01 sec)
 
@@ -73,13 +73,13 @@ mysql> select * from employee_payroll;
 +-------------+---------+----------+------------+--------+
 |           1 | rohith  | 35000.00 | 2019-04-15 | NULL   |
 |           2 | shoban  | 48000.00 | 2020-12-09 | NULL   |
-|           3 | rahul   |  5600.00 | 2022-04-25 | NULL   |
+|           3 | vishnu  |  5600.00 | 2022-04-25 | NULL   |
 +-------------+---------+----------+------------+--------+
 3 rows in set (0.00 sec)
 
-mysql> update employee_payroll set gender = 'M' WHERE name = 'rohith' or name = 'shoban' or name = 'rahul';
-Query OK, 3 rows affected (0.01 sec)
-Rows matched: 3 Changed: 3  Warnings: 0
+mysql> update employee_payroll set gender = 'M' WHERE name = 'rohith' or name = 'shoban';
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2 Changed: 2  Warnings: 0
 
 mysql> select * from employee_payroll;
 +-------------+---------+----------+------------+--------+
@@ -87,8 +87,77 @@ mysql> select * from employee_payroll;
 +-------------+---------+----------+------------+--------+
 |           1 | rohith  | 35000.00 | 2019-04-15 | M      |
 |           2 | shoban  | 48000.00 | 2020-12-09 | M      |
-|           3 | rahul   |  5600.00 | 2022-04-25 | M      |
+|           3 | vishnu  |  5600.00 | 2022-04-25 | Null   |
 +-------------+---------+----------+------------+--------+
 3 rows in set (0.00 sec)
 
+mysql> update employee_payroll set gender = 'F' WHERE name = 'vishnu';
+Query OK, 1 rows affected (0.01 sec)
+Rows matched: 1 Changed: 1  Warnings: 0
+
+mysql> select * from employee_payroll;
++-------------+---------+----------+------------+--------+
+| employee_id | name    | salary   | start_date | gender |
++-------------+---------+----------+------------+--------+
+|           1 | rohith  | 35000.00 | 2019-04-15 | M      |
+|           2 | shoban  | 48000.00 | 2020-12-09 | M      |
+|           3 | vishnu  |  5600.00 | 2022-04-25 | F      |
++-------------+---------+----------+------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT SUM(salary) FROM employee_payroll
+    ->  WHERE gender = 'F' GROUP BY gender;
++-------------+
+| SUM(salary) |
++-------------+
+|     5600.00 |
++-------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT SUM(salary) FROM employee_payroll
+    ->   WHERE gender = 'M' GROUP BY gender;
++-------------+
+| SUM(salary) |
++-------------+
+|    83000.00 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT AVG(salary) from employee_payroll
+    ->  where gender = 'F' GROUP BY gender;
++-------------+
+| AVG(salary) |
++-------------+
+| 5600.000000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT AVG(salary) from employee_payroll
+    ->  where gender = 'M' GROUP BY gender;
++--------------+
+| AVG(salary)  |
++--------------+
+| 41500.000000 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select min(salary) from employee_payroll
+    ->  where gender = 'M' GROUP BY gender;
++-------------+
+| min(salary) |
++-------------+
+|    35000.00 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select max(salary)  from employee_payroll
+    ->  where gender = 'M' GROUP BY gender;
++-------------+
+| max(salary) |
++-------------+
+|    48000.00 |
++-------------+
+1 row in set (0.00 sec)
+
 mysql>
+
